@@ -45,7 +45,7 @@ const Editor: FC = () => {
 
         try {
             const castedEditor = nodeEditor.current as IFlume;
-            const json = JSON.stringify(castedEditor.getNodes());
+            const json = JSON.stringify(castedEditor.getNodes(), null, 2);
 
             const handle = await window.showSaveFilePicker({ suggestedName: 'scenario.yade' });
             const writable = await handle.createWritable();
