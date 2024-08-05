@@ -1,11 +1,11 @@
-import { FC, memo, useEffect, useRef, useState } from "react";
+import { FC, memo, useRef, useState } from "react";
 import config from '../flume-config';
 import Layout from "./Layout";
 import { NodeEditor, NodeMap } from "flume";
 import { IFlume } from "../types/unknownTypes";
 import { SidePanel } from "./SidePanel";
-import { Button } from "antd";
 import { v4 } from "uuid";
+import { Button } from "./Button.styled";
 
 const Editor: FC = () => {
     const [nodes, setNodes] = useState<NodeMap | undefined>({});
@@ -15,6 +15,11 @@ const Editor: FC = () => {
 
     const forceReloadEditor = () => {
         setEditorKey(v4());
+    }
+
+    const newScenario = () => {
+        setNodes(undefined);
+        forceReloadEditor();
     }
 
     const openScenario = async () => {
@@ -54,6 +59,7 @@ const Editor: FC = () => {
     return (
         <Layout>
             <SidePanel>
+                <Button onClick={newScenario}>New</Button>
                 <Button onClick={openScenario}>Open</Button>
                 <Button onClick={saveScenario}>Save</Button>
             </SidePanel>
