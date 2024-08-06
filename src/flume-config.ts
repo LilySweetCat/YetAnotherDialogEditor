@@ -4,11 +4,11 @@ const flumeConfig = new FlumeConfig()
 
 flumeConfig
     .addPortType({
-        type: "nextStep",
-        name: "nextStep",
-        label: "Next step",
+        type: "flow",
+        name: "flow",
+        label: "Flow",
         color: Colors.yellow,
-        acceptTypes: ["nextStep", "onTrue", "onFalse"],
+        acceptTypes: ["flow", "onTrue", "onFalse"],
         noControls: true
     })
     .addPortType({
@@ -16,7 +16,7 @@ flumeConfig
         name: "onTrue",
         label: "On true",
         color: Colors.green,
-        acceptTypes: ["nextStep"],
+        acceptTypes: ["flow"],
         noControls: true
     })
     .addPortType({
@@ -24,7 +24,7 @@ flumeConfig
         name: "onFalse",
         label: "On false",
         color: Colors.pink,
-        acceptTypes: ["nextStep"],
+        acceptTypes: ["flow"],
         noControls: true
     })
     .addPortType({
@@ -66,7 +66,15 @@ flumeConfig
             ports.text({label: "Scenario name", name: "scenarioName"})
         ],
         outputs: ports => [
-            ports.nextStep()
+            ports.flow()
+        ]
+    })
+    .addNodeType({
+        type: "endScenario",
+        label: "End scenario",
+        initialWidth: 150,
+        inputs: ports => [
+            ports.flow({label: "Flow", name: "flow"}),
         ]
     })
     .addNodeType({
@@ -74,7 +82,7 @@ flumeConfig
         label: "Go to scenario",
         initialWidth: 150,
         inputs: ports => [
-            ports.nextStep({label: "Previous step", name: "previousStep"}),
+            ports.flow({label: "Flow", name: "flow"}),
             ports.text({label: "Scenario name", name: "scenarioName"})
         ]
     })
@@ -83,11 +91,23 @@ flumeConfig
         label: "Change background",
         initialWidth: 150,
         inputs: ports => [
-            ports.nextStep({label: "Previous step", name: "previousStep"}),
+            ports.flow({label: "Flow", name: "flow"}),
             ports.text({ label: "Background name", name: "backgroundName"}),
         ],
         outputs: ports => [
-            ports.nextStep(),
+            ports.flow(),
+        ]
+    })
+    .addNodeType({
+        type: "playAnimation",
+        label: "Play animation",
+        initialWidth: 150,
+        inputs: ports => [
+            ports.flow({label: "Flow", name: "flow"}),
+            ports.text({ label: "Animation name", name: "animationName"}),
+        ],
+        outputs: ports => [
+            ports.flow(),
         ]
     })
     .addNodeType({
@@ -95,7 +115,7 @@ flumeConfig
         label: "Change level",
         initialWidth: 150,
         inputs: ports => [
-            ports.nextStep({label: "Previous step", name: "previousStep"}),
+            ports.flow({label: "Flow", name: "flow"}),
             ports.text({ label: "Level name", name: "levelName"}),
         ]
     })
@@ -104,13 +124,13 @@ flumeConfig
         label: "Dialogue",
         initialWidth: 150,
         inputs: ports => [
-            ports.nextStep({label: "Previous step", name: "previousStep"}),
+            ports.flow({label: "Flow", name: "flow"}),
             ports.text({ label: "Name", name: "characterName" }),
             ports.text({ label: "Avatar", name: "characterAvatar" }),
             ports.text({ label: "Dialogue", name: "characterDialogue" }),
         ],
         outputs: ports => [
-            ports.nextStep(),
+            ports.flow(),
         ]
     })
     .addNodeType({
@@ -118,7 +138,7 @@ flumeConfig
         label: "Check inventory",
         initialWidth: 150,
         inputs: ports => [
-            ports.nextStep({label: "Previous step", name: "previousStep"}),
+            ports.flow({label: "Flow", name: "flow"}),
             ports.text({ label: "Item name", name: "itemName" }),
         ],
         outputs: ports => [
@@ -131,11 +151,11 @@ flumeConfig
         label: "Add to inventory",
         initialWidth: 150,
         inputs: ports => [
-            ports.nextStep({label: "Previous step", name: "previousStep"}),
+            ports.flow({label: "Flow", name: "flow"}),
             ports.text({ label: "Item name", name: "itemName" }),
         ],
         outputs: ports => [
-            ports.nextStep(),
+            ports.flow(),
         ]
     })
     .addNodeType({
@@ -143,12 +163,12 @@ flumeConfig
         label: "Ask question",
         initialWidth: 150,
         inputs: ports => [
-            ports.nextStep({label: "Previous step", name: "previousStep"}),
+            ports.flow({label: "Flow", name: "flow"}),
             ports.text({ label: "Question", name: "question" }),
         ],
         outputs: ports => [
             ports.optionFlow({label: "Options", name: "options"}),
-            ports.nextStep({label: "Fallback", name: "fallback"}),
+            ports.flow({label: "Fallback", name: "fallback"}),
         ]
     })
     .addNodeType({
@@ -160,7 +180,7 @@ flumeConfig
             ports.option(),
         ],
         outputs: ports => [
-            ports.nextStep({label: "On true", name: "onTrue"}),
+            ports.flow({label: "On true", name: "onTrue"}),
         ]
     })
 
